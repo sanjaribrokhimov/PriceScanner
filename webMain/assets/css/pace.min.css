@@ -1,0 +1,77 @@
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 5px; /* Высота индикатора */
+  background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 100%);
+  border-radius: 2px; /* Скругленные углы */
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.555); /* Тень */
+  animation: loading 1s ease-in-out infinite; /* Анимация загрузки */
+}
+
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px; /* Ширина начального индикатора */
+  height: 100%;
+  opacity: 1.0;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 50%;
+  left: 50%;
+  width: 60px; /* Размер индикатора активности */
+  height: 60px;
+  border: solid 6px transparent;
+  border-top-color: #4CAF50; /* Цвет верхней части */
+  border-left-color: #4CAF50; /* Цвет левой части */
+  border-radius: 50%;
+  animation: pace-spinner 800ms linear infinite; /* Увеличьте скорость анимации */
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.5); /* Эффект свечения */
+  transform: translate(-50%, -50%); /* Центрируем элемент */
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Увеличение при загрузке */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pace-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pace.pace-active {
+  width: 100%;
+  height: 100%;
+  z-index: 3000;
+  position: fixed;
+  top: 0;
+  background-color: rgba(29, 33, 37, 0.8); /* Полупрозрачный фон */
+}

@@ -1,0 +1,45 @@
+#companies-list-container {
+    max-width: 1000px;
+}
+
+#companies-list {
+    list-style: none;
+    padding: 0;
+}
+
+#companies-list li {
+    padding: 8px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    /* border: 1px solid #ddd; */
+}
+
+#pagination-controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#pagination-controls button {
+    margin: 0 2px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+#pagination-controls button:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+#pagination {
+    text-align: center;
+    padding-bottom: 20px;
+}
+#pagination button {
+    background-color: whitesmoke;
+    font-size: 15px;
+    border: none;
+    border-radius: 40px;
+}

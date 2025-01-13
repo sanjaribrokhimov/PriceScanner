@@ -1,0 +1,971 @@
+/*
+Template Name: eTrans eCommerce
+Author: codervent
+Email: codervent@gmail.com
+File: app.css
+*/
+
+/* 
+
+  - General
+  - Header
+  - Menu
+  - Product Effect
+  - Blog
+  - owl carasoul
+  - Responsive
+  - Order Tracking
+  - Page Wrapper
+  - Back to Top Button
+  - Breadcrumb
+  - Extra CSS
+  - Utilities
+  - Chip
+  - Invoice
+  - Nav Tabs
+  - Pagination
+  - Background Colors
+  - Authentication
+  - Buttons
+  - Dropdown
+  - Theme Switcher
+  - Responsive
+
+*/
+
+/* General */
+body {
+	font-family: 'Poppins', sans-serif;
+	background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+	color: #fff;
+	line-height: 1.6;
+	min-height: 100vh;
+	width: 100%;
+	overflow-x: hidden;
+	
+}
+
+.form-group.filter {
+    display: flex;
+    height: 38px;
+    align-items: center;
+    /* background: rgba(255, 255, 255, 0.95); */
+    border-radius: 5px;
+    padding: 5px;
+    gap: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #1e3a8a;
+	margin: 5px 0;
+}
+
+.shadow-in-input
+{
+	box-shadow: none !important;
+}
+.shadow-in-input input
+{
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+.no-scroll {
+	overflow: hidden !important;
+  }
+  
+
+.cart-link::after
+{
+	display: none !important;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input
+{
+	/* border: 1px solid #fff !important;
+	color: #fff !important; */
+}
+
+input::placeholder {
+	color: #1e3a8a !important; /* Выберите нужный цвет */
+}
+.form-group.filter input::placeholder {
+	color: #fff !important; /* Выберите нужный цвет */
+}
+/* 
+hr
+{
+	margin: 0 !important;
+	padding: 0 !important;
+} */
+
+#navbar_main
+{
+	margin-left: -22px !important;
+}
+#navbar_main span
+{
+	font-size: 20px;
+}
+#category{
+	border-radius: 25px;
+	color: #1e3a8a;
+}
+
+/* Header */
+.header-wrapper {
+	background: rgba(37, 99, 235, 0.95);
+	backdrop-filter: blur(15px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	position: relative;
+    z-index: 9999;
+}
+
+.header-content {
+	padding: 15px 0;
+	display: flex;
+	align-items: center;
+}
+
+.header-content h3 {
+	font-size: 28px;
+	font-weight: 700;
+	color: #fff;
+	margin: 0;
+	letter-spacing: 0.5px;
+}
+
+/* Search Section */
+.input-group {
+	display: flex;
+	align-items: center;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 50px;
+	padding: 5px;
+	gap: 5px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+	height: 38px;
+	outline: none;
+	background: transparent !important;
+	padding: 0 20px !important;
+	font-size: 15px;
+	flex: 1;
+	border: 1px solid rgba(255 255 255 / .5) !important;
+	color: #fff !important;
+}
+#query
+{
+	height: 45px;
+	border: none !important;
+	color: #1e3a8a !important;
+}
+#search-button
+{
+	border: 1px solid #4d90fe;
+}
+#category {
+	height: 45px;
+	border: none;
+	background: transparent;
+	padding: 0 35px 0 20px !important;
+	color: #1e3a8a;
+	font-size: 15px;
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+	min-width: 120px;
+	border-radius: 0;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231e3a8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 12px center;
+	background-size: 16px;
+	transition: all 0.3s ease;
+}
+
+#category:hover {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+#category:focus {
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+#query:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+/* Стили для выпадающего списка */
+#category option {
+	color: #1e3a8a;
+	background: white;
+	padding: 10px;
+	font-size: 14px;
+}
+
+/* Убираем стандартную стрелку в IE */
+#category::-ms-expand {
+	display: none;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+	#category {
+		min-width: 100px;
+		font-size: 14px;
+		padding: 0 30px 0 15px !important;
+	}
+}
+
+.input-group-text {
+	width: 45px;
+	height: 45px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #3b82f6;
+	color: #fff;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin-left: 5px;
+}
+
+.input-group-text:hover {
+	background: #2563eb;
+	transform: translateY(-2px);
+}
+
+/* Navigation */
+#menu3 {
+	background: rgba(37, 99, 235, 0.98);
+	overflow-x: scroll;
+	width: 100%;
+	-ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+	scrollbar-width: none;     /* Для Firefox */
+}
+
+/* Добавляем новое правило для скрытия полосы прокрутки в WebKit браузерах (Chrome, Safari) */
+#menu3::-webkit-scrollbar {
+	display: none;
+}
+
+.navbar-nav {
+	display: flex;
+	align-items: center;
+	
+}
+
+/* Navigation Links */
+.nav-link {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	color: #fff !important;
+	padding: 12px 22px !important;
+	border-radius: 14px;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	overflow: hidden;
+}
+
+.nav-link::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.1);
+	transform: translateX(-100%);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover::before {
+	transform: translateX(0);
+}
+
+.nav-link i {
+	width: 42px;
+	height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	font-size: 20px !important;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	z-index: 1;
+}
+
+.nav-link:hover i {
+	background: rgba(255, 255, 255, 0.2);
+	transform: translateY(-4px) rotate(8deg);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* User Icons */
+.top-cart-icons {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.top-cart-icons .nav-link {
+	padding: 8px !important;
+	position: relative;
+}
+
+.top-cart-icons .nav-link i {
+	width: 42px;
+	height: 42px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-cart-icons .nav-link:hover i {
+	background: rgba(255, 255, 255, 0.2);
+	transform: translateY(-4px) scale(1.05);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Social Links */
+.social-link {
+	display: flex;
+	gap: 15px;
+	margin-left: auto;
+}
+
+.social-link .nav-link {
+	padding: 0 !important;
+	position: relative;
+	overflow: hidden;
+}
+
+.social-link .nav-link i {
+	width: 38px;
+	height: 38px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Специальные стили для соц. сетей */
+.social-link .nav-link.facebook i {
+	color: #1877f2;
+}
+
+.social-link .nav-link.instagram i {
+	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.social-link .nav-link.telegram i {
+	color: #0088cc;
+}
+
+.social-link .nav-link:hover i {
+	transform: translateY(-4px) scale(1.1);
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Carousel */
+.carousel-item {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 20px;
+	padding: 40px;
+	margin: 20px 0;
+}
+
+.carousel-item h1 {
+	font-size: 2.5em;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+
+.carousel-item h3 {
+	font-size: 1.4em;
+	opacity: 0.9;
+	font-weight: 400;
+}
+
+.carousel-item img {
+	max-width: 100%;
+	height: auto;
+	transition: transform 0.3s ease;
+}
+
+.carousel-item:hover img {
+	transform: scale(1.02);
+}
+
+/* Mobile Adaptations */
+@media (max-width: 1200px) {
+	.social-link {
+		gap: 10px;
+	}
+	
+	.nav-link {
+		padding: 10px 18px !important;
+	}
+}
+
+@media (max-width: 992px) {
+	.social-link .nav-link i {
+		width: 35px;
+		height: 35px;
+		font-size: 16px;
+	}
+	
+	.nav-link i {
+		width: 38px;
+		height: 38px;
+	}
+}
+
+@media (max-width: 768px) {
+	.social-link {
+		margin: 10px 0;
+		justify-content: center;
+	}
+	
+	.nav-link {
+		padding: 8px 15px !important;
+	}
+	
+	.nav-link i {
+		width: 35px;
+		height: 35px;
+		font-size: 18px !important;
+	}
+	
+	.top-cart-icons {
+		gap: 10px;
+	}
+	
+	.top-cart-icons .nav-link i {
+		width: 35px;
+		height: 35px;
+	}
+		
+	.order-list
+	{
+		left: 0;
+	}
+}
+
+@media (max-width: 576px) {
+	.social-link {
+		
+		bottom: 20px;
+		right: 20px;
+		flex-direction: column;
+		gap: 10px;
+		z-index: 1000;
+	}
+	
+	.social-link .nav-link {
+		background: rgba(255, 255, 255, 0.15);
+		backdrop-filter: blur(10px);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	}
+	
+	.nav-link span {
+		font-size: 14px;
+	}
+}
+
+/* Стили для кнопки назад */
+.back-button {
+	position: absolute;
+	left: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(255, 255, 255, 0.1);
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	backdrop-filter: blur(5px);
+	z-index: 100;
+}
+
+.back-button i {
+	font-size: 22px;
+	color: white;
+}
+
+.back-button:hover {
+	background: rgba(255, 255, 255, 0.2);
+	transform: translateY(-50%) scale(1.05);
+}
+
+.back-button:active {
+	transform: translateY(-50%) scale(0.95);
+}
+
+/* Мобильная версия */
+@media (max-width: 576px) {
+	.back-button {
+		width: 35px;
+		height: 35px;
+		left: 10px;
+	}
+
+	.back-button i {
+		font-size: 20px;
+	}
+}
+
+.nav-link.cart-link:hover {
+	background: rgba(59, 130, 246, 0.7) !important;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.nav-link.cart-link {
+	transition: all 0.3s ease !important;
+}
+
+/* Стили для Google Translate */
+.goog-te-gadget {
+    color: #fff !important;
+    font-family: inherit !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin: 5px;
+    outline: none;
+}
+
+.goog-te-gadget .goog-te-combo option {
+    background: #1e3a8a;
+    color: #fff;
+}
+
+/* Скрываем лишние элементы */
+.goog-te-gadget-simple {
+    display: none !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+#goog-gt-tt {
+    display: none !important;
+}
+
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+body {
+    top: 0 !important;
+}
+
+
+#filter-sidebar .form-control
+{
+	margin: 5px 0;
+}
+.price-input
+{
+	display: flex;
+	justify-content: space-between;
+}
+.price-input input
+{
+	width: 75px;
+}
+.slider
+{
+	opacity: 0;
+}
+
+#modalToRender
+{
+	justify-content: center;
+}
+
+/* MODAL CALENDAR */
+.cont-cal
+{
+    width: 350px;
+}
+.calendar-container {
+  text-align: center;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  max-width: 350px;
+  margin: 5px 0;
+  text-align: center;
+}
+.calendar .day {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* border: 1px solid #ddd; */
+  font-size: 25px;
+}
+.calendar .day.unavailable {
+  background-color: red;
+  color: white;
+}
+.calendar .day.selected-start {
+  background-color: lightblue;
+  color: #000;
+}
+.calendar .day.selected-end {
+  background-color: lightgreen;
+  color: #000;
+}
+.calendar .day.in-range {
+  background-color: lightgray;
+  color: #000;
+}
+.calendar .day:hover {
+  background-color: #e0e0e0;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 5px;
+}
+
+#modal-for-date {
+  display: flex !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+#modal-for-date.show
+{
+  opacity: 1;
+  visibility: visible;
+}
+
+.cont-cal .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cont-cal .modal input {
+  margin: 5px;
+}
+
+.cont-cal .modal-button {
+  margin-top: 20px;
+}
+
+.month-header {
+	width: 210px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+.month-header button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+}
+#month-name-modal
+{
+  margin: 0 10px;
+}
+#start-date,
+#end-date
+{
+	background-color: transparent;
+}
+
+
+
+/* order-list */
+
+.order-list
+{
+	width: 450px;
+	right: 0 !important;
+	background-color: #fff;
+	color: #434343;
+	overflow: hidden;
+}
+.order-list p,
+.order-list h4,
+.order-list h5
+{
+	color: #000;
+}
+.cart-header-title
+{
+	text-align: center;
+    padding: 5px 0 10px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.cart-list
+{
+    max-height: 600px;
+}
+
+.s-order
+{
+	padding: 5px;
+}
+
+.ps li:nth-child(odd)
+{
+	background-color: #eee;
+}
+.s-order:hover
+{
+	/* background-color: #ccc; */
+}
+.text-align-right
+{
+	text-align: right;
+}
+.order_type
+{
+	color: #aaa;
+}
+.s-order .stat
+{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #a9a9a9;
+    margin: 0 2px;
+}
+.s-order .stat.good
+{
+    background: #17a00e;
+}
+
+#forMobile .cart-footer
+{
+	padding: 10px 0 5px 0;
+    border-top: 1px solid #9a9a9a;
+}
+
+
+/* REVIEW MODAL */
+/* Стили для модального окна */
+.review-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 400px;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	padding: 20px;
+	z-index: 10000;
+  
+	/* Анимация появления */
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .review-modal .modal-content > *
+  {
+	color: #000;
+  }
+  .review-modal .modal-content
+  {
+	background-color: #fff;
+	color: #000;
+  }
+  
+  /* Активное состояние модального окна */
+  .review-modal.active {
+	opacity: 1;
+	visibility: visible;
+  }
+  
+  /* Фон для затемнения */
+  .modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+  
+	/* Анимация появления */
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  /* Активное состояние затемнения */
+  .modal-overlay.active {
+	opacity: 1;
+	visibility: visible;
+  }
+  
+  /* Стили контента внутри модального окна */
+  .review-modal .modal-content {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+  }
+  
+  .review-modal .close-modal {
+	cursor: pointer;
+	align-self: flex-end;
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+  }
+  
+  .review-modal .close-modal:hover {
+	color: red;
+  }
+  
+  .review-modal .submit-review {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+  }
+  
+  .review-modal .submit-review:hover {
+	background-color: #0056b3;
+  }
+  .review-modal .comment-input 
+  {
+	width: 360px;
+    max-height: 400px;
+    min-height: 100px;
+  }
+
+  .review-modal .stars-input
+  {
+	border: 1px solid #000 !important;
+	color: #000 !important;
+  } 
+/* 
+
+  .product-info-section h3
+  {
+	color: #000;
+  } */
+
+
+  .modal-content
+  {
+	background-color: #fff;
+    border-radius: 10px !important;
+  }
+  #modalCarModel,
+  #modalCarCompany,
+  #exampleModalLabel
+  {
+	color: #000 !important;
+  }
+
+  .infoModal p,
+  .infoModal div,
+  .infoModal h1,
+  .infoModal h2,
+  .infoModal h3,
+  .infoModal h4,
+  .infoModal h5,
+  .infoModal h6,
+  .infoModal span,
+  .infoModal,
+  #successModal p,
+  #successModal div,
+  #successModal h1,
+  #successModal h2,
+  #successModal h3,
+  #successModal h4,
+  #successModal h5,
+  #successModal h6,
+  #successModal span,
+  #successModal
+  {
+	color: #000 !important;
+  }
+  
+  #successModal .modal-content
+  {
+	box-shadow: 0 5px 15px 10px rgba(0 0 0 / .1);
+  }
+
+  .modal-body input
+  {
+	border-color: #1e3a8a !important;
+	color: #1e3a8a !important;
+  }
+  .modal-body input::placeholder
+  {
+	color: #1e3b8a88 !important;
+  }
+  .modal-body li
+  {
+	margin: 5px 0;
+  }
