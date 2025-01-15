@@ -57,6 +57,31 @@
                         <!-- /# row -->
 
 
+
+<!-- <script>
+    const fetchUrl = `${local_url}/api/hotel/hotel/${localStorage.company_id}/rooms`;
+    fetch(fetchUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.access_token}`, // Добавляем заголовок с токеном
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.rooms && data.rooms.length > 0) {
+                console.log(data.rooms);
+                console.log(data.pages)
+            } else {
+                alert('No rooms found for this hotel.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching rooms:', error);
+        });
+</script> -->
+
+
 <?php include './components/footer.php' ?>
 
 

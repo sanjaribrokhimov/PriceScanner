@@ -123,7 +123,43 @@
 
 
 
+<!-- Модальное окно для дат-->
+<div class="modal" id="modal-for-date">
+    <div class="modal-content">
+        <h2>Выберите даты</h2>
+        <div class="month-header" data-id=''>
+            <button onclick="prevMonthModal()">&#8592;</button>
+            <div id="month-name-modal">Месяц</div>
+            <button onclick="nextMonthModal()">&#8594;</button>
+        </div>
+        <div class="calendar" id="calendar-modal"></div>
+        <br>
+        <div>
+            <label for="start-date">Дата начала:</label>
+            <input type="date" id="start-date" readonly>
+            <label for="end-date">Дата окончания:</label>
+            <input type="date" id="end-date" readonly>
+            <br>
+            <button class="modal-button add-date-button" onclick="addReservation()" data-set-id="">Добавить</button>
+            <button class="modal-button" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+
 <script>
+
+var unavailableDates = [];
+let currentMonth = new Date().getMonth();  // Текущий месяц
+let currentYear = new Date().getFullYear(); // Текущий год
+let selectedStartDate = null;
+let selectedEndDate = null;
+let allRooms = [];
+const months = [
+    "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+];
+
 var hotel_id = '';
 const paginationContainer = document.getElementById("pagination");
 const maxVisibleButtons = 5;
@@ -139,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadHotels(page) {
         fetch(apiUrl).then(response => response.json())
             .then(data => {
-                // console.log(data);
+                console.log(data);
                 hotel_id = data.hotels[0].hotel_id
                 if (data.hotels) {
                     document.querySelectorAll('.card div')[1].style.display = 'none';
@@ -177,16 +213,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // rooms.sort((a, b) => b.id - a.id)
         console.log(rooms)
-        rooms.forEach(room => {
+        rooms.forEach((room, i) => {
+            
+            unavailableDates.push(room.availability);
             const row = document.createElement('tr');
-            row.addEventListener('click', function () {
-                window.location.href = `room.php?id=${room.id}`;
-            });
+            
 
             // Room ID
             const idCell = document.createElement('td');
             idCell.innerHTML = room.id;
             row.appendChild(idCell);
+            idCell.addEventListener('click', function () {
+                window.location.href = `room.php?id=${room.id}`;
+            });
 
             // Room Type
             const typeCell = document.createElement('td');
@@ -202,6 +241,36 @@ document.addEventListener('DOMContentLoaded', function() {
             const capacityCell = document.createElement('td');
             capacityCell.textContent = room.capacity;
             row.appendChild(capacityCell);
+
+            
+            // Calendar
+            let statusClass = room.availability === [] ? 'status-unavailable' : 'status-available';
+            var calendar = `
+                <div class="cont-cal">
+                    <div class="calendar-container">
+                        <div class="month-header">
+                            <button onclick="prevMonth(${i})">&#8592;</button>
+                            <div class="month-name month-name-for-date">Месяц</div>
+                            <button onclick="nextMonth(${i})">&#8594;</button>
+                        </div>
+                        <div class="calendar calendar-for-date"></div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button onclick="showModal(${room.id}, ${i}, ${false})">Добавить заказ</button>
+                        <button onclick="showModal(${room.id}, ${i}, ${true})">Удалить заказ</button>
+                    </div>
+                </div>
+            `
+            let addDates = `
+                <div class="controls">
+                    <button onclick="showModal(${room.id}, ${i}, ${false})">Добавить заказ</button>
+                </div>
+            `
+            const calendarTd = document.createElement('td')
+            console.log(room.availability)
+            calendarTd.innerHTML = room.availability.length === [] ? addDates : calendar;
+            row.appendChild(calendarTd);
             
             // Features
             const featuresCell = document.createElement('td');
@@ -217,7 +286,10 @@ document.addEventListener('DOMContentLoaded', function() {
             row.className = room.is_available ? 'active' : 'unactive'; 
 
             tbody.appendChild(row);
+            room.availability === [] ? null : renderCalendar(currentMonth, currentYear, false, i);
         });
+
+        
     }
 
     function renderPagination(totalPages) {
@@ -267,6 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.rooms && data.rooms.length > 0) {
+                    allRooms = data.rooms;
                     populateRooms(data.rooms);
                     renderPagination(data.pages)
                 } else {
@@ -498,6 +571,311 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 });
+
+
+
+function renderCalendar(month, year, isModal = false, index = 0) {
+    const calendar = isModal ? document.getElementById('calendar-modal') : document.querySelectorAll('.calendar-for-date')[index];
+    const monthName = isModal ? document.getElementById('month-name-modal') : document.querySelectorAll('.month-name-for-date')[index];
+
+    calendar.innerHTML = '';  // Очищаем старый календарь
+    monthName.textContent = `${months[month]} ${year}`; // Обновляем название месяца
+
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+    const daysInMonth = lastDayOfMonth.getDate();
+    const startDay = firstDayOfMonth.getDay(); // День недели для первого числа месяца
+
+    const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    daysOfWeek.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.textContent = day;
+        calendar.appendChild(dayElement);
+    });
+
+    for (let i = 0; i < startDay; i++) {
+        calendar.appendChild(document.createElement('div'));
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('day');
+        dayElement.textContent = i;
+
+        const currentDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+        if (isUnavailable(currentDate, index)) {
+            dayElement.classList.add('unavailable');
+        }
+
+        if (selectedStartDate && selectedEndDate) {
+            if (currentDate === selectedStartDate) {
+                dayElement.classList.add('selected-start');
+            } else if (currentDate === selectedEndDate) {
+                dayElement.classList.add('selected-end');
+            } else if (currentDate > selectedStartDate && currentDate < selectedEndDate) {
+                dayElement.classList.add('in-range');
+            }
+        }
+
+        dayElement.onclick = () => handleDateSelection(currentDate, index);
+        calendar.appendChild(dayElement);
+    }
+}
+
+function isUnavailable(date, i) {
+    return unavailableDates[i].some(range => {
+        const start = range.start_date;
+        const end = range.end_date;
+        return date >= start && date <= end;
+    });
+}
+
+function handleDateSelection(date, index) {
+    if (!selectedStartDate) {
+        selectedStartDate = date;
+        document.getElementById('start-date').value = selectedStartDate;
+        document.getElementById('end-date').value = ''; // Сбросить end_date
+    } else if (!selectedEndDate) {
+        if (date >= selectedStartDate) {
+            selectedEndDate = date;
+            document.getElementById('end-date').value = selectedEndDate;
+        } else {
+            selectedEndDate = selectedStartDate;
+            selectedStartDate = date;
+            document.getElementById('start-date').value = selectedStartDate;
+            document.getElementById('end-date').value = selectedEndDate;
+        }
+    } else {
+        // Если обе даты выбраны, снова установить только start_date
+        selectedStartDate = date;
+        selectedEndDate = null;
+        document.getElementById('start-date').value = selectedStartDate;
+        document.getElementById('end-date').value = '';
+    }
+
+    renderCalendar(currentMonth, currentYear, true, index); // Обновляем календарь в модальном окне
+}
+
+function showModal(car_id, index, isDelete) {
+    
+    selectedStartDate = null;
+    selectedEndDate = null;
+    document.querySelector('.month-header').dataset.id = index;
+    document.querySelector('.month-header').dataset.isDelete = isDelete;
+    document.querySelector('.add-date-button').textContent = isDelete ? 'Удалить' : 'Добавить'
+    document.querySelector('.add-date-button').dataset.isDelete = isDelete;
+    document.querySelector('.add-date-button').dataset.id = car_id;
+    document.getElementById('modal-for-date').classList.add('show')
+    renderCalendar(currentMonth, currentYear, true, index);
+}
+
+function closeModal() {
+    document.getElementById('modal-for-date').classList.remove('show')
+    selectedStartDate = null;
+    selectedEndDate = null;
+}
+
+function addReservation() {
+    let roomId = document.querySelector('.add-date-button').dataset.id;
+    let isDelete = document.querySelector('.add-date-button').dataset.isDelete;
+    isDelete = isDelete === "true" ? true : false;
+
+    const startDate = selectedStartDate;
+    const endDate = selectedEndDate;
+
+    if (startDate && endDate) {
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${localStorage.access_token}`);
+
+        if (isDelete) {
+            let availability = allRooms.find(item => +item.id === +roomId);
+
+            console.log(roomId, allRooms);
+            console.log(availability);
+
+            if (!availability) {
+                alert("Комната с указанным ID не найден.");
+                return;
+            }
+
+            availability = availability.availability;
+            console.log(availability);
+
+            // Проверяем, совпадает ли выбранный диапазон с уже существующим
+            let exactMatch = availability.find(item => {
+                return new Date(item.start_date).getTime() === new Date(startDate).getTime() &&
+                    new Date(item.end_date).getTime() === new Date(endDate).getTime();
+            });
+
+            if (exactMatch) {
+                // Если диапазон полностью совпадает, отправляем запрос с is_available: 1
+                const formData = new FormData();
+                formData.append("start_date", startDate);
+                formData.append("end_date", endDate);
+                formData.append("is_available", "1");
+                console.log(`${local_url}api/hotel/room/${roomId}/availability/${exactMatch.id}`)
+
+
+                fetch(`${local_url}/api/hotel/room/${roomId}/availability/${exactMatch.id}`, {
+                    method: "PUT",
+                    headers: myHeaders,
+                    body: formData,
+                    redirect: "follow"
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Ошибка обновления: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(result => {
+                    console.log("Обновление доступности выполнено успешно:", result);
+                    // alert("Выбранный диапазон теперь доступен.");
+                    window.location.reload();
+
+                })
+                .catch(error => {
+                    console.error("Ошибка при обновлении доступности:", error);
+                    alert("Произошла ошибка при обновлении.");
+                });
+            } else {
+                // Логика разделения диапазона, если есть пересечения, но полного совпадения нет
+                let overlappingAvailability = availability.find(item => {
+                    return (new Date(item.start_date) <= new Date(endDate)) &&
+                        (new Date(item.end_date) >= new Date(startDate));
+                });
+
+                if (overlappingAvailability) {
+                    let newAvailability = [];
+
+                    if (new Date(overlappingAvailability.start_date) < new Date(startDate)) {
+                        let adjustedEndDate = new Date(startDate);
+                        adjustedEndDate.setDate(adjustedEndDate.getDate() - 1);
+                        newAvailability.push({
+                            start_date: overlappingAvailability.start_date,
+                            end_date: adjustedEndDate.toISOString().split('T')[0],
+                            is_available: 0
+                        });
+                    }
+
+                    if (new Date(overlappingAvailability.end_date) > new Date(endDate)) {
+                        let adjustedStartDate = new Date(endDate);
+                        adjustedStartDate.setDate(adjustedStartDate.getDate() + 1);
+                        newAvailability.push({
+                            start_date: adjustedStartDate.toISOString().split('T')[0],
+                            end_date: overlappingAvailability.end_date,
+                            is_available: 0
+                        });
+                    }
+
+                    // Обновляем доступность на сервер
+                    Promise.all(newAvailability.map(item => {
+                        const formData = new FormData();
+                        formData.append("start_date", item.start_date);
+                        formData.append("end_date", item.end_date);
+                        formData.append("is_available", "0");
+
+                        return fetch(`${local_url}/api/hotel/room/${roomId}/availability/${overlappingAvailability.id}`, {
+                            method: "PUT",
+                            headers: myHeaders,
+                            body: formData,
+                            redirect: "follow"
+                        });
+                    }))
+                    .then(responses => {
+                        return Promise.all(responses.map(response => {
+                            if (!response.ok) {
+                                throw new Error(`Ошибка обновления диапазона: ${response.status}`);
+                            }
+                            return response.text();
+                        }));
+                    })
+                    .then(results => {
+                        console.log("Обновление успешно выполнено:", results);
+                        // alert("Доступность успешно обновлена.");
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error("Ошибка обновления:", error);
+                        alert("Произошла ошибка при обновлении доступности.");
+                    });
+                } else {
+                    alert("Диапазон дат не найден в доступности.");
+                }
+            }
+
+
+        } else {
+            // Добавляем новую запись, если isDelete = false
+            const formdata = new FormData();
+            formdata.append("start_date", `${startDate}`);
+            formdata.append("end_date", `${endDate}`);
+            formdata.append("is_available", "0");
+
+            fetch(`${local_url}/api/hotel/room/${roomId}/availability/`, {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                window.location.reload();
+            })
+            .catch(error => console.error(error));
+        }
+
+        closeModal();
+    } else {
+        alert("Пожалуйста, выберите даты.");
+    }
+}
+
+
+
+function nextMonthModal() {
+    let index = document.querySelector('.month-header').dataset.id;
+
+    if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear++;
+    } else {
+        currentMonth++;
+    }
+    renderCalendar(currentMonth, currentYear, true, index);
+}
+
+function prevMonthModal() {
+    let index = document.querySelector('.month-header').dataset.id;
+    if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear--;
+    } else {
+        currentMonth--;
+    }
+    renderCalendar(currentMonth, currentYear, true, index);
+}
+
+function nextMonth(i) {
+    if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear++;
+    } else {
+        currentMonth++;
+    }
+    renderCalendar(currentMonth, currentYear, false, i);
+}
+
+function prevMonth(i) {
+    if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear--;
+    } else {
+        currentMonth--;
+    }
+    renderCalendar(currentMonth, currentYear, false, i);
+}
 </script>
 
 

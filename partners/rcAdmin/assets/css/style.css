@@ -5108,7 +5108,9 @@ p {
 
 .cont-cal
 {
-    width: 210px;
+  width: 140px;
+  display: flex;
+  gap: 15px;
 }
 .calendar-container {
   text-align: center;
@@ -5121,15 +5123,15 @@ p {
   margin: 5px 0;
   text-align: center;
 }
-.calendar .day {
-  width: 30px;
-  height: 30px;
+.calendar div {
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   /* border: 1px solid #ddd; */
-  font-size: 14px;
+  font-size: 12px;
 }
 .calendar .day.unavailable {
   background-color: red;
@@ -5151,6 +5153,14 @@ p {
 .controls {
   text-align: center;
   margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+.controls button
+{
+  line-height: 15px;
 }
 
 #modal-for-date {
@@ -5211,4 +5221,8 @@ p {
 #month-name-modal
 {
   margin: 0 10px;
+}
+.month-name-for-date
+{
+  font-size: 12px;
 }

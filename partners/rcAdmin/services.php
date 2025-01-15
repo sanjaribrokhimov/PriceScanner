@@ -521,7 +521,8 @@
                     })
                     .then(result => {
                         console.log("Обновление доступности выполнено успешно:", result);
-                        alert("Выбранный диапазон теперь доступен.");
+                        window.location.reload();
+                        // alert("Выбранный диапазон теперь доступен.");
                     })
                     .catch(error => {
                         console.error("Ошибка при обновлении доступности:", error);
@@ -581,7 +582,8 @@
                         })
                         .then(results => {
                             console.log("Обновление успешно выполнено:", results);
-                            alert("Доступность успешно обновлена.");
+                            window.location.reload()
+                            // alert("Доступность успешно обновлена.");
                         })
                         .catch(error => {
                             console.error("Ошибка обновления:", error);
