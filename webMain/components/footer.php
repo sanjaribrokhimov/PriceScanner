@@ -92,18 +92,20 @@
     <p>Buyurtma ID: <span class="order-id"></span></p>
     <label>
       Baho (1-10):
-      <select class="stars-input">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
+      <div class="stars">
+        <!-- Создаем 10 звёзд -->
+        <span data-value="1">&#9733;</span>
+        <span data-value="2">&#9733;</span>
+        <span data-value="3">&#9733;</span>
+        <span data-value="4">&#9733;</span>
+        <span data-value="5">&#9733;</span>
+        <span data-value="6">&#9733;</span>
+        <span data-value="7">&#9733;</span>
+        <span data-value="8">&#9733;</span>
+        <span data-value="9">&#9733;</span>
+        <span data-value="10">&#9733;</span>
+      </div>
+      <input type="hidden" class="stars-input" name="rating" value="0">
     </label>
     <label>
       Izoh:
@@ -151,6 +153,34 @@ window.onscroll = function() {
         menu.style.padding = '15px 0'
     }
 };
+
+const starsContainer = document.querySelector('.stars');
+const stars = document.querySelectorAll('.stars span');
+const starsInput = document.querySelector('.stars-input');
+
+stars.forEach((star) => {
+  star.addEventListener('click', () => {
+    // Устанавливаем значение при клике
+    starsInput.value = star.dataset.value;
+    highlightStars(star.dataset.value);
+    console.log(star.dataset.value)
+  });
+});
+
+function highlightStars(rating) {
+  stars.forEach((star) => {
+    if (+star.dataset.value <= +rating) {
+      star.classList.add('active');
+    } else {
+      star.classList.remove('active');
+    }
+  });
+}
+
+function resetStars() {
+  stars.forEach((star) => star.classList.remove('active'));
+}
+
 
 // document.querySelector('#adaptive-menu-bar').onclick = function() {
 //     document.querySelector('#menu3>.container').classList.toggle('hide')

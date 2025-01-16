@@ -17,9 +17,9 @@ function toLogin() {
 
 var toLoginForm = `
     <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Предупреждение:</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: #000;font-size: 30px !important;font-weight: 600;">Предупреждение:</h1>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="font-size: 20px; font-weight: 600">
         Для заказа нужно зарегистрироваться!
     </div>
     <div class="modal-footer">

@@ -91,14 +91,16 @@
 		// alert(query)
 
 		var carModalBody = `
-		<div class="col-12">
-            <div class="image-zoom-section">
-                <div class="product-gallery owl-carousel owl-theme border mb-3 p-3" data-slider-id="1">
-                    <div class="item">
-                        <img id="modalCarImage" class="img-fluid" alt="Tasvir">
-                    </div>
-                </div>
-            </div>
+		<div class="col-12 d-flex justify-content-center">
+			<div class="col-12 col-lg-6">
+				<div class="image-zoom-section">
+					<div class="product-gallery owl-carousel owl-theme border mb-3 p-3" data-slider-id="1">
+						<div class="item">
+							<img id="modalCarImage" class="img-fluid" alt="Tasvir">
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
         <div class="col-12 col-lg-6 infoModal">
             <div class="product-info-section p-3">

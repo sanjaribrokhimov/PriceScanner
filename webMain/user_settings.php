@@ -17,10 +17,10 @@
                                             <!-- Navigation links -->
                                             <a href="dashboard_user.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Boshqaruv Paneli<i class='bx bx-tachometer fs-5'></i></a>
                                             <a href="user_settings.php" class="list-group-item active d-flex justify-content-between align-items-center">Account sozlamasi<i class='bx bx-user-circle fs-5'></i></a>
-                                            <a href="account-orders.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Buyurtmalar<i class='bx bx-cart-alt fs-5'></i></a>
+                                            <!-- <a href="account-orders.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Buyurtmalar<i class='bx bx-cart-alt fs-5'></i></a>
                                             <a href="account-downloads.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Yuklanishlar<i class='bx bx-download fs-5'></i></a>
                                             <a href="account-addresses.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Manzillar<i class='bx bx-home-smile fs-5'></i></a>
-                                            <a href="account-payment-methods.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Tolovlar<i class='bx bx-credit-card fs-5'></i></a>
+                                            <a href="account-payment-methods.php" class="list-group-item d-flex justify-content-between align-items-center bg-transparent">Tolovlar<i class='bx bx-credit-card fs-5'></i></a> -->
                                             <a href="#" class="list-group-item d-flex justify-content-between align-items-center bg-transparent" onclick="confirmLogout()">Chiqish<i class='bx bx-log-out fs-5'></i></a>
                                         </div>
                                     </div>

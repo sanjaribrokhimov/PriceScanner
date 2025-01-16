@@ -45,6 +45,13 @@ body {
 	
 }
 
+.img-cont img
+{
+	max-width: 225px;
+	width: 100%;
+	margin: 20px;
+}
+
 .form-group.filter {
     display: flex;
     height: 38px;
@@ -969,3 +976,32 @@ body {
   {
 	margin: 5px 0;
   }
+
+
+
+
+  /* review stars */
+  .stars {
+	display: flex;
+	gap: 5px;
+	cursor: pointer;
+  }
+  
+  .stars span {
+	font-size: 24px;
+	color: #ccc; /* Цвет неактивной звезды */
+	transition: color 0.3s;
+  }
+  
+  .stars span.active,
+  .stars span:hover {
+	color: gold; /* Цвет активной звезды */
+  }
+  
+
+
+
+.modal-backdrop
+{
+	z-index: 9999;
+}

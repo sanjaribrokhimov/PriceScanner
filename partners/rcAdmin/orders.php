@@ -138,7 +138,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Change status</h2>
-        <form id="changeStatus">
+        <form id="changeStatus" style="width: 100%">
             <div class="form-group">
 
                 <div class="orderData">
@@ -186,9 +186,16 @@
     const apiUrl = `${local_url}/api/order/rco-by-company?company_id=${company_id}&per_page=${perPage}`;
     const maxVisibleButtons = 5;
 
-    function renderTable(orders) {
+    function renderTable(ords) {
         tableBody.innerHTML = "";
-        orders.forEach(order => {
+        // console.log(orders)
+        if(JSON.stringify(orders) === JSON.stringify(ords)){
+            console.log('birhil')
+        }
+        else{
+            console.log('yangi bor')
+        }
+        ords.forEach(order => {
 
             let dates = order.comment ? order.comment.split('').splice(-21).join('') : '';
             let comment = order.comment ? order.comment.slice(0, -21) : '';
@@ -209,7 +216,9 @@
                     <br>
                     ${comment}
                 </td>
-                <td onclick="changeStatus(${order.id})">${order.status}</td>
+                <td onclick="changeStatus(${order.id})">
+                    <button>${order.status}</button>
+                </td>
                 <td>
                     <button class="btn btn-primary btn-danger" onclick="deleteOrder(${order.id})" data-order-id="${order.id}" type="button">
                         <i class="ti-trash"></i>

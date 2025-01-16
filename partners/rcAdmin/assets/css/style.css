@@ -4992,6 +4992,11 @@ p {
    .product-2-details tbody tr td:last-child{
 	  text-align:left;
   }
+  
+  #order-status-edit .modal-content
+  {
+    width: 100% !important;
+  }
 }
 @media (max-width: 767px){
 	 .product-2-details tbody tr td{
@@ -5182,6 +5187,10 @@ p {
   visibility: visible;
 }
 
+#order-status-edit .modal-content
+{
+  width: 500px;
+}
 .modal-content {
   background-color: white;
   padding: 20px;

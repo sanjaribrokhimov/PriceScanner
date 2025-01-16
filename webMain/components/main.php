@@ -92,7 +92,7 @@
 
                         <div class="card rounded-0">
                             <div class="row g-0 align-items-center">
-                                <div class="col">
+                                <div class="col d-flex justify-content-center img-cont">
                                     <img src="./image/car_logo.png" class="img-fluid" alt="" />
                                 </div>
                                 <div class="col">
@@ -107,7 +107,7 @@
                     <div class="col">
                         <div class="card rounded-0">
                             <div class="row g-0 align-items-center">
-                                <div class="col">
+                                <div class="col d-flex justify-content-center img-cont">
                                     <img src="./image/tour_logo.png" class="img-fluid" alt="" />
                                 </div>
                                 <div class="col">
@@ -122,7 +122,7 @@
                     <div class="col">
                         <div class="card rounded-0">
                             <div class="row g-0 align-items-center">
-                                <div class="col">
+                                <div class="col d-flex justify-content-center img-cont">
                                     <img src="./image/hotel.png" class="img-fluid" alt="" />
                                 </div>
                                 <div class="col">
@@ -165,7 +165,7 @@
             <div class="container">
                 <div class="d-flex align-items-center">
                     <h5 class="text-uppercase mb-0">RentCar</h5>
-                    <a href="./pages/rencar.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
+                    <a href="./rentcar.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
                 </div>
                 <hr />
                 <div class="product-grid">
@@ -179,7 +179,7 @@
             <div class="container">
                 <div class="d-flex align-items-center">
                     <h5 class="text-uppercase mb-0">Ekskursiya</h5>
-                    <a href="./pages/tour.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
+                    <a href="./tour.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
                 </div>
                 <hr />
                 <div class="product-grid">
@@ -193,7 +193,7 @@
             <div class="container">
                 <div class="d-flex align-items-center">
                     <h5 class="text-uppercase mb-0">Mehmonxona</h5>
-                    <a href="./pages/hotel.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
+                    <a href="./hotel.php" class="btn btn-light ms-auto rounded-0">Barchasi<i class='bx bx-chevron-right'></i></a>
                 </div>
                 <hr />
                 <div class="product-grid">

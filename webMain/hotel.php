@@ -18,9 +18,9 @@
         <div class="row">
             <div class="col-12">
                 <div id="search-block" class="mb-4">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <select id="filter_city" name="filter_city" class="form-select">
+                    <div class="row gap-3 gap-md-0">
+                        <div class="col-md-2">
+                            <select id="filter_city" name="filter_city" class="form-select" style="background-color: transparent;border-color:rgba(255 255 255 / .5);">
                                 <option value="">Hududni tanlang</option>
                                 <option value="andijan">Andijon</option>
                                 <option value="bukhara">Buxoro</option>
@@ -43,12 +43,29 @@
                             <input id="filter_num_rooms" type="number" class="form-control" placeholder="Hona soni">
                         </div>
                         <div class="col-md-2">
-                            <select id="filter_bed_type" class="form-select">
+                            <select id="filter_bed_type" class="form-select" style="background-color: transparent;border-color:rgba(255 255 255 / .5);">
                                 <option value="">Yotoq turi</option>
                                 <option value="queen">Queen</option>
                                 <option value="king">King</option>
                                 <option value="twin">Twin</option>
                             </select>
+                        </div>
+                        <div class="col-md-2 form-group filter shadow-in-input m-0">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" style="background-color: transparent;border-color:rgba(255 255 255 / .5);">
+                                    Dates
+                                </button>
+                                <form class="dropdown-menu p-4" style="width: max-content;background-color: rgb(48 114 240);box-shadow:0 0 10px 5px rgba(0 0 0 / .1)">
+                                    <div class="mb-3">
+                                        <label for="filter_start_date" class="form-label">Start date</label>
+                                        <input type="date" class="form-control" id="filter_start_date" placeholder="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="filter_end_date" class="form-label">Password</label>
+                                        <input type="date" class="form-control" id="filter_end_date" placeholder="">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <button id="search-button" class="btn btn-primary">Qidirish</button>
@@ -240,6 +257,8 @@
             bed_type: '',
             num_adults: 0,
             num_rooms: 0,
+            start_date: 0,
+            end_date: 0,
             // per_page: 12,
         }
         
@@ -249,6 +268,8 @@
         firstFilter.bed_type = document.getElementById("filter_bed_type").value;
         firstFilter.num_adults = document.getElementById("filter_num_adults").value;
         firstFilter.num_rooms = document.getElementById("filter_num_rooms").value;
+        firstFilter.start_date = document.getElementById("filter_start_date").value;
+        firstFilter.end_date = document.getElementById("filter_end_date").value;
 
         // Parametrlarga faqat ularning qiymatlari berilgan bo'lsa qo'shamiz
         for (const [key, value] of Object.entries(firstFilter)) {
