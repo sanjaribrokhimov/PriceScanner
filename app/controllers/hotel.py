@@ -1056,6 +1056,199 @@ def get_single_room(room_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
+@hotel_bp.route('/items/filter/v2', methods=['GET'])
+def get_hotels_by_filter_v2():
+    filters = []
+    room_filters = []
+
+    city = request.args.get('city')
+    if city:
+        filters.append(Hotel.city == city)
+
+    # Room Filters
+    room_type = request.args.get('room_type')
+    if room_type:
+        room_filters.append(Room.room_type == room_type)
+    
+    bed_type = request.args.get('bed_type')
+    if bed_type:
+        room_filters.append(Room.bed_type == bed_type)
+
+    price_min = request.args.get('price_min', type=float)
+    price_max = request.args.get('price_max', type=float)
+    if price_min:
+        room_filters.append(Room.price_per_night >= price_min)
+    if price_max:
+        room_filters.append(Room.price_per_night <= price_max)
+    
+    num_adults = request.args.get('num_adults', type=int)
+    num_kids = request.args.get('num_kids', type=int)
+    
+    if num_adults is not None and num_kids is not None:
+        required_capacity = num_adults + num_kids
+        room_filters.append(Room.capacity == required_capacity)
+        room_filters.append(Room.num_adults == num_adults)
+    elif num_adults is not None:
+        room_filters.append(Room.num_adults == num_adults)
+
+    num_rooms = request.args.get('num_rooms', 1, type=int) 
+    
+    # Hotel Filters
+    wifi = request.args.get('wifi')
+    if wifi is not None:
+        wifi = bool(int(wifi))
+        filters.append(Hotel.wifi == wifi)
+    
+    air_conditioner = request.args.get('air_conditioner')
+    if air_conditioner is not None:
+        air_conditioner = bool(int(air_conditioner))
+        filters.append(Hotel.air_conditioner == air_conditioner)
+    
+    stars = request.args.get('stars', type=int)
+    if stars is not None:
+        filters.append(Hotel.stars == stars)
+    
+    breakfast = request.args.get('breakfast')
+    if breakfast is not None:
+        breakfast = bool(int(breakfast))
+        filters.append(Hotel.breakfast == breakfast)
+    
+    parking = request.args.get('parking')
+    if parking is not None:
+        parking = bool(int(parking))
+        filters.append(Hotel.parking == parking)
+    
+    swimming_pool = request.args.get('swimming_pool')
+    if swimming_pool is not None:
+        swimming_pool = bool(int(swimming_pool))
+        filters.append(Hotel.swimming_pool == swimming_pool)
+    
+    gym = request.args.get('gym')
+    if gym is not None:
+        gym = bool(int(gym))
+        filters.append(Hotel.gym == gym)
+    
+    transport = request.args.get('transport')
+    if transport is not None:
+        transport = bool(int(transport))
+        filters.append(Hotel.transport == transport)
+    
+    restaurant_bar = request.args.get('restaurant_bar')
+    if restaurant_bar is not None:
+        restaurant_bar = bool(int(restaurant_bar))
+        filters.append(Hotel.restaurant_bar == restaurant_bar)
+    
+    location = request.args.get('location')
+    if location:
+        filters.append(Hotel.location.contains(location))
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    start_date_str = request.args.get('start_date')
+    end_date_str = request.args.get('end_date')
+
+    start_date = None
+    end_date = None
+
+    if start_date_str and end_date_str:
+        try:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+            # Subquery to find room ids NOT available in the given range
+            unavailable_room_ids = db.session.query(RoomAvailability.room_id).filter(
+                RoomAvailability.is_available == False,
+                RoomAvailability.start_date <= end_date,
+                RoomAvailability.end_date >= start_date
+            ).distinct().subquery()
+
+
+            # Filter rooms to only include available rooms
+            room_query = Room.query.filter(and_(*room_filters), not_(Room.id.in_(unavailable_room_ids)))
+            
+            # Count available rooms for each hotel
+            hotels_with_rooms = defaultdict(int)
+            for room in room_query.all():
+                hotels_with_rooms[room.hotel_id] += 1
+            
+            # Filter hotels based on availability criteria
+            hotel_ids = [hotel_id for hotel_id, count in hotels_with_rooms.items() if count >= num_rooms]
+
+            if not hotel_ids:
+                return jsonify({'message': 'No hotels found with the specified room criteria'}), 404
+
+            filters.append(Hotel.id.in_(hotel_ids))
+            pagination = Hotel.query.filter(and_(*filters)).paginate(page=page, per_page=per_page, error_out=False)
+            hotels = pagination.items
+
+        except ValueError:
+            return jsonify({'message': 'Invalid date format, please use YYYY-MM-DD'}), 400
+    
+    else:
+        pagination = Hotel.query.filter(and_(*filters)).paginate(page=page, per_page=per_page, error_out=False)
+        hotels = pagination.items
+    
+    if not hotels:
+        return jsonify({'message': 'No hotels found'}), 404
+
+    result = []
+    for hotel in hotels:
+        hotel_data = {
+            'hotel_id': hotel.id,
+            'company_id': hotel.company_id,
+            'name': hotel.name,
+            'city': hotel.city,
+            'location': hotel.location,
+            'images': [f'/item/hotel_image/{image.id}' for image in hotel.images],
+            'wifi': hotel.wifi,
+            'air_conditioner': hotel.air_conditioner,
+            'stars': hotel.stars,
+            'breakfast': hotel.breakfast,
+            'transport': hotel.transport,
+            'kitchen': hotel.kitchen,
+            'restaurant_bar': hotel.restaurant_bar,
+            'swimming_pool': hotel.swimming_pool,
+            'gym': hotel.gym,
+            'parking': hotel.parking,
+            'reviews': hotel.reviews,
+            'status': "true",
+            'rooms': [{
+                'id': room.id,
+                'room_type': room.room_type,
+                'capacity': room.capacity,
+                'num_adults': room.num_adults,
+                'num_kids': room.capacity - room.num_adults,
+                'bed_type': room.bed_type,
+                'price_per_night': room.price_per_night,
+                'is_available': True if not any(
+                    start_date and end_date and 
+                    availability.start_date <= end_date and availability.end_date >= start_date and not availability.is_available
+                    for availability in room.availabilities
+                ) else False,
+                'availability': [{
+                    'start_date': availability.start_date.strftime('%Y-%m-%d'),
+                    'end_date': availability.end_date.strftime('%Y-%m-%d'),
+                    'is_available': availability.is_available
+                } for availability in room.availabilities if availability.is_available == False]
+            } for room in hotel.rooms]
+        }
+        result.append(hotel_data)
+
+    return jsonify({
+        'hotels': result,
+        'pagination': {
+            'total': pagination.total,
+            'pages': pagination.pages,
+            'current_page': pagination.page,
+            'per_page': pagination.per_page,
+            'has_next': pagination.has_next,
+            'has_prev': pagination.has_prev,
+        }
+    }), 200
+
+''' 
 @hotel_bp.route('/items/filter/v2', methods=['GET'])
 def get_hotels_by_filter_v2():
     filters = []
@@ -1243,3 +1436,5 @@ def get_hotels_by_filter_v2():
             'has_prev': pagination.has_prev,
         }
     }), 200
+
+    '''
