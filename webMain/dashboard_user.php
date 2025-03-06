@@ -70,5 +70,12 @@
   <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/index.js"></script>
+  <script>
+    function confirmLogout() {
+        if (confirm('Accountdan chiqmoqchisiz ishonchingiz komilmi ?')) {
+            window.location.href = 'logout.php';
+        }
+    }
+  </script>
 </body>
 </html>

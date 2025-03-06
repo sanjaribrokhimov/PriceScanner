@@ -12,7 +12,7 @@
     <link href="assets/css/lib/unix.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <script>
-        var local_url = ''
+        var local_url = 'http://127.0.0.1:5000'
     </script>
 </head>
 

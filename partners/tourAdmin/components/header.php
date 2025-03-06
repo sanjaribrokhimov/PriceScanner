@@ -23,7 +23,7 @@ $current_file = basename($_SERVER['PHP_SELF'], ".php");
     <link href="assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <script>
-        var local_url = ''
+        var local_url = 'http://127.0.0.1:5000'
     </script>
 
     <style>

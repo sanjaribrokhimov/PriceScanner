@@ -99,13 +99,25 @@ async function toLike(product_id, product_company_id, product, good){
 
 
 async function toCart(product_id, product) {
+    let paramsForInfo = {
+        type: '',
+    }
     if (product === 'car') {
         orderData.car_id = product_id;
         delete orderData.hotel_id
         delete orderData.tour_id
-        foundProduct = cars.find(item => item.id === +product_id);
+        // foundProduct = cars.find(item => item.id === +product_id);
+        
+        paramsForInfo.type = "rentcar";
+        paramsForInfo.car_id = product_id;
+
+        foundProduct = await getProductInfo(paramsForInfo)
+
+        console.log(foundProduct);
             
-        unavailableDates = foundProduct.availability;
+        unavailableDates = foundProduct.car.availability;
+        
+        orderData.company_id = foundProduct.company.id;
     }
 
     if (product === 'hotel') {
@@ -120,21 +132,34 @@ async function toCart(product_id, product) {
         // // Теперь можно безопасно использовать .find(), так как hotelsArray - это всегда массив
         // console.log(hotelsArray, foundCmp.id)
         // console.log(product_id)
-        foundProduct = hotelsArray.find(item => item.hotel_id === +product_id);
-        // console.log(foundProduct)
+        // foundProduct = hotelsArray.find(item => item.hotel_id === +product_id);
+        
+        paramsForInfo.type = product;
+        paramsForInfo.hotel_id = product_id;
+        foundProduct = await getProductInfo(paramsForInfo)
+        console.log(foundProduct);
         
         orderData.hotel_id = foundProduct.hotel_id;
+        
+        orderData.company_id = foundProduct.hotel.company_id;
     }
 
     if (product === 'tour') {
         orderData.tour_id = product_id;
         delete orderData.hotel_id
         delete orderData.car_id
-        foundProduct = tours.find(item => item.id === +product_id);
+        // foundProduct = tours.find(item => item.id === +product_id);
+        
+        paramsForInfo.type = product;
+        paramsForInfo.tour_id = product_id;
+        foundProduct = await getProductInfo(paramsForInfo)
+        console.log(foundProduct);
+        
+        
+        orderData.company_id = foundProduct.tour.company_id;
     }
 
     // console.log(foundProduct)
-    orderData.company_id = foundProduct.company?.id || foundProduct.company_id;
     await checkUserData(product_id, product);
 }
 
@@ -418,17 +443,17 @@ function checkClientData(product_id, product, bool) {
             currentYear = new Date().getFullYear(); // Обновляем год
             selectedStartDate = null;
             selectedEndDate = null;
-            document.getElementById('modalCarModel').textContent = foundProduct.model;
-            document.getElementById('modalCarPrice').textContent = `Narx: $${foundProduct.price}`;
+            document.getElementById('modalCarModel').textContent = foundProduct.car.model;
+            document.getElementById('modalCarPrice').textContent = `Narx: $${foundProduct.car.price}`;
             document.getElementById('modalCarCompany').textContent = foundProduct.company.name;
-            document.getElementById('modalCarColor').textContent = foundProduct.color;
-            document.getElementById('modalCarYear').textContent = foundProduct.year;
-            document.getElementById('modalCarSeats').textContent = foundProduct.seats;
-            document.getElementById('modalCarFuel').textContent = foundProduct.fuel_type;
-            document.getElementById('modalCarTransmission').textContent = foundProduct.transmission;
-            document.getElementById('modalCarDeposit').textContent = foundProduct.deposit;
-            document.getElementById('modalCarInsurance').textContent = foundProduct.insurance;
-            document.getElementById('modalCarComment').textContent = foundProduct.comment;
+            document.getElementById('modalCarColor').textContent = foundProduct.car.color;
+            document.getElementById('modalCarYear').textContent = foundProduct.car.year;
+            document.getElementById('modalCarSeats').textContent = foundProduct.car.seats;
+            document.getElementById('modalCarFuel').textContent = foundProduct.car.fuel_type;
+            document.getElementById('modalCarTransmission').textContent = foundProduct.car.transmission;
+            document.getElementById('modalCarDeposit').textContent = foundProduct.car.deposit;
+            document.getElementById('modalCarInsurance').textContent = foundProduct.car.insurance;
+            document.getElementById('modalCarComment').textContent = foundProduct.car.comment;
             renderCalendar(currentMonth, currentYear, true);
 
         }else if(product === 'hotel'){
@@ -469,12 +494,12 @@ function checkClientData(product_id, product, bool) {
             document.getElementById('modalHotelRoomType').textContent = roomType;
             document.getElementById('modalHotelBedType').textContent = bedType;
         }else if(product === 'tour'){
-            document.getElementById('modalTourTitle').textContent = foundProduct.title;
-            document.getElementById('modalTourDescription').textContent = foundProduct.description;
-            document.getElementById('modalTourFromCountry').textContent = foundProduct.fromCountry || foundProduct.from_country;
-            document.getElementById('modalTourToCountry').textContent = foundProduct.toCountry || foundProduct.to_country;
-            document.getElementById('modalTourCategory').textContent = foundProduct.category;
-            foundProduct.departures.forEach(e => {
+            document.getElementById('modalTourTitle').textContent = foundProduct.tour.title;
+            document.getElementById('modalTourDescription').textContent = foundProduct.tour.description;
+            document.getElementById('modalTourFromCountry').textContent = foundProduct.tour.fromCountry || foundProduct.tour.from_country;
+            document.getElementById('modalTourToCountry').textContent = foundProduct.tour.toCountry || foundProduct.tour.to_country;
+            document.getElementById('modalTourCategory').textContent = foundProduct.tour.category;
+            foundProduct.tour.departures.forEach(e => {
                 var depTime = e.departure_date?.split('').slice(0, 10).join('').split('-').join('.') || e.date.split('').slice(0, 10).join('').split('-').join('.');
                 document.getElementById('modalTourDepartures').innerHTML += `
                 <div class="d-flex">

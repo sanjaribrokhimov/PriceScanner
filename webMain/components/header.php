@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 	<script>
-		var local_url = '';
+		var local_url = 'http://127.0.0.1:5000';
 		
 		var cars = [];
 		var tours = [];
@@ -160,7 +160,6 @@
 				<div id="modalTourDepartures" class="mt-3"></div>
 				<p id="modalTourDescription" class="mt-3">Error</p>
 				<div id="modalTourVideo" class="mt-3">Video</div>
-				<div id="modalTourPrice" class="text-white fs-5 mt-3">$0.00</div>
 			</div>
 		`
 		var hotelModalBody = `

@@ -28,7 +28,7 @@ $current_file = basename($_SERVER['PHP_SELF'], ".php");
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        var local_url = ''
+        var local_url = 'http://127.0.0.1:5000'
         var orders = [];
     </script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

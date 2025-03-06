@@ -128,69 +128,74 @@ function showHotelDetails(name, address, stars, comments, location, wifi, breakf
 
 // Tur tafsilotlarini ko‘rsatish funksiyasi
 
-function showTourDetails(tourId) {
-    const tour = tours.find(item => item.id === tourId);
-    if (tour) {
-        document.getElementById('modalToRender').innerHTML = tourModalBody;
+async function showTourDetails(tourId) {
+  let paramsForInfo = {
+    type: 'tour',
+    tour_id: tourId,
+  }
+  let tour = await getProductInfo(paramsForInfo)
+  tour = tour.tour
+  if (tour) {
+      document.getElementById('modalToRender').innerHTML = tourModalBody;
 
-        // Обновляем заголовок тура
-        document.getElementById('modalTourTitle').textContent = tour.title;
+      // Обновляем заголовок тура
+      document.getElementById('modalTourTitle').textContent = tour.title;
 
-        // Добавляем Sanalar va narxlar
-        let departuresHTML = '<h5>Sanalar va narxlar</h5>';
-        tour.departures.forEach(departure => {
-            const formattedDate = departure.departure_date.replace('T00:00:00', ' ');
-            departuresHTML += `
-                <div class="departure-item mb-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="departure-date text-light fs-6">${formattedDate.trim()}</span>
-                        <span class="departure-price text-success fs-5 fw-bold">$${departure.price}</span>
-                    </div>
-                </div>
-            `;
-        });
-        document.getElementById('modalTourDepartures').innerHTML = departuresHTML;
+      // Добавляем Sanalar va narxlar
+      let departuresHTML = '<h5>Sanalar va narxlar</h5>';
+      tour.departures.forEach(departure => {
+          const formattedDate = departure.departure_date.replace('T00:00:00', ' ');
+          departuresHTML += `
+              <div class="departure-item mb-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <span class="departure-date text-light fs-6">${formattedDate.trim()}</span>
+                      <span class="departure-price text-success fs-5 fw-bold">$${departure.price}</span>
+                  </div>
+              </div>
+          `;
+      });
+      document.getElementById('modalTourDepartures').innerHTML = departuresHTML;
 
-        // Описание тура
-        document.getElementById('modalTourDescription').textContent = tour.description;
+      // Описание тура
+      document.getElementById('modalTourDescription').textContent = tour.description;
 
-        // Добавляем информацию о категории, стране отправления и стране назначения
-        const categoryHTML = `
-            <div class="tour-details mt-3">
-                <p class="text-light fs-6">kategoriya: <span class="text-info">${tour.category}</span></p>
-                <p class="text-light fs-6">dan: <span class="text-info">${tour.fromCountry}</span></p>
-                <p class="text-light fs-6">ga: <span class="text-info">${tour.toCountry}</span></p>
-            </div>
-        `;
-        document.getElementById('modalTourDescription').insertAdjacentHTML('beforeend', categoryHTML);
+      // Добавляем информацию о категории, стране отправления и стране назначения
+      const categoryHTML = `
+          <div class="tour-details mt-3">
+              <p class="text-light fs-6">kategoriya: <span class="text-info">${tour.category}</span></p>
+              <p class="text-light fs-6">dan: <span class="text-info">${tour.fromCountry}</span></p>
+              <p class="text-light fs-6">ga: <span class="text-info">${tour.toCountry}</span></p>
+          </div>
+      `;
+      document.getElementById('modalTourDescription').insertAdjacentHTML('beforeend', categoryHTML);
 
-        // Добавляем изображения тура
-        const gallery = $('.product-gallery');
-        gallery.trigger('destroy.owl.carousel'); // Уничтожаем карусель
-        gallery.find('.owl-stage-outer').children().unwrap(); // Убираем обертку
+      // Добавляем изображения тура
+      const gallery = $('.product-gallery');
+      gallery.trigger('destroy.owl.carousel'); // Уничтожаем карусель
+      gallery.find('.owl-stage-outer').children().unwrap(); // Убираем обертку
 
-        // Устанавливаем новое изображение
-        let carouselResult = ''
-        tour.images.forEach(e => {
-            carouselResult += `
-                <div class="item">
-                    <img id="modalCarImage" class="img-fluid" src="${local_url}/api/tour/${e}" alt="Tasvir">
-                </div>
-            `
-        })
-        gallery.html(carouselResult);
+      // Устанавливаем новое изображение
+      let carouselResult = ''
+      tour.images.forEach(e => {
+          carouselResult += `
+              <div class="item">
+                  <img id="modalCarImage" class="img-fluid" src="${local_url}/api/tour/${e}" alt="Tasvir">
+              </div>
+          `
+      })
+      gallery.html(carouselResult);
 
-        // Инициализируем карусель заново
-        gallery.owlCarousel({
-            items: 1,
-            loop: true,
-            nav: true,
-            dots: true,
-        });
+      // Инициализируем карусель заново
+      gallery.owlCarousel({
+          items: 1,
+          loop: true,
+          nav: true,
+          dots: true,
+      });
 
-        // Обновляем цену
-        updatePrice(tour.departures[0].price);
-    }
+      // Обновляем цену
+      // updatePrice(tour.departures[0].price);
+  }
 }
 
 

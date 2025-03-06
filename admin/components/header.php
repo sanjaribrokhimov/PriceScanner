@@ -31,7 +31,7 @@ $current_file = basename($_SERVER['PHP_SELF'], ".php");
     <link rel="stylesheet" href="customCss/listCompanies.css">
     <link rel="stylesheet" href="customCss/edit-company.css">
     <script>
-		var local_url = '';
+		var local_url = 'http://127.0.0.1:5000';
     </script>
     <style>
         .form-control {

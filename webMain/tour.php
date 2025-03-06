@@ -321,7 +321,15 @@ function renderData(data) {
                         <div class="card-body">
                             <h6 class="product-name mb-2">${product.title}</h6>
                             <div class="product-price"><span style="color:#fff; font-weight: 600;font-size:20px">$${lowestPrice}</span> dan boshlab</div>
-                            <a href="javascript:;" class="btn btn-light btn-ecomm" onclick="toCart(\`${product.id}\`, \`${product.company_id}\`, 'tour')" data-bs-toggle="modal" data-bs-target="#gotoSign">Savatchaga qo'shish</a>
+                            <div class="d-grid gap-2">
+                                <a href="javascript:;" class="btn btn-light btn-ecomm" onclick="toCart(\`${product.id}\`, 'tour')" data-bs-toggle="modal" data-bs-target="#QuickViewProduct">
+                                    <i class='bx bxs-cart-add'></i> Buyurtma qilish
+                                </a>
+                                <a href="javascript:;" class="btn btn-link btn-ecomm" data-bs-toggle="modal" data-bs-target="#QuickViewProduct"
+                                onclick="showTourDetails(${product.id})">
+                                <i class='bx bx-zoom-in'></i> Batafsil
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>`;
